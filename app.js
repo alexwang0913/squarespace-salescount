@@ -42,6 +42,8 @@ app.get('/', (req, res) => {
         totalSales += parseInt(document.totalSales.value)
       }
 
+      totalSales += 800;
+
       res.send(totalSales.toString())
     }
   })
