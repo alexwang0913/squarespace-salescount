@@ -35,13 +35,13 @@ app.get('/', (req, res) => {
   request(options, (err, response, body) => {
     if (!err && response.statusCode == 200) {
       const { documents } = JSON.parse(body)
-      console.log(documents)
+
       let totalSales = 0
-      // for (var i = 0; i < documents.length; i++) {
-      //   const document = documents[i]
-      //   totalSales += parseInt(document.totalSales.value)
-      // }
-      totalSales = documents.length
+      for (var i = 0; i < documents.length; i++) {
+        const document = documents[i]
+        const value = parseFloat(document.totalSales.value)
+        totalSales += Math.ceil(value / 7.95)
+      }
 
       totalSales += 800;
 
