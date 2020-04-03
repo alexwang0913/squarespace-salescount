@@ -37,10 +37,11 @@ app.get('/', (req, res) => {
       const { documents } = JSON.parse(body)
       console.log(documents)
       let totalSales = 0
-      for (var i = 0; i < documents.length; i++) {
-        const document = documents[i]
-        totalSales += parseInt(document.totalSales.value)
-      }
+      // for (var i = 0; i < documents.length; i++) {
+      //   const document = documents[i]
+      //   totalSales += parseInt(document.totalSales.value)
+      // }
+      totalSales = documents.length
 
       totalSales += 800;
 
