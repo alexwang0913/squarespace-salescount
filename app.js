@@ -24,9 +24,16 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
+  const url = 'https://api.squarespace.com/1.0/commerce/transactions?modifiedAfter=2017-01-01T12:00:00Z&modifiedBefore=2020-04-15T14:30:00Z';
+  fetchData(url, res)
 
+})
+
+let totalSales = 0
+
+function fetchData(url, res) {
   const options = {
-    url: 'https://api.squarespace.com/1.0/commerce/transactions?modifiedAfter=2017-01-01T12:00:00Z&modifiedBefore=2020-04-15T14:30:00Z',
+    url: url,
     headers: {
       'User-Agent': 'request',
       "Authorization": "Bearer faf514f8-bb5f-4f07-807c-0121512036bd"
@@ -34,20 +41,24 @@ app.get('/', (req, res) => {
   }
   request(options, (err, response, body) => {
     if (!err && response.statusCode == 200) {
-      const { documents } = JSON.parse(body)
+      const { documents, pagination } = JSON.parse(body)
 
-      let totalSales = 0
+
       for (var i = 0; i < documents.length; i++) {
         const document = documents[i]
         const value = parseFloat(document.totalSales.value)
         totalSales += Math.ceil(value / 7.95)
       }
 
-      totalSales += 800;
+      if (pagination.hasNextPage) {
+        fetchData(pagination.nextPageUrl, res)
+      } else {
+        totalSales += 800;
 
-      res.send(totalSales.toString())
+        res.send(totalSales.toString())
+      }
     }
   })
-})
+}
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
