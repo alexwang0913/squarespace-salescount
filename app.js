@@ -23,13 +23,14 @@ app.use(function (req, res, next) {
   next();
 });
 
+let totalSales = 0
 app.get('/', (req, res) => {
   const url = 'https://api.squarespace.com/1.0/commerce/transactions?modifiedAfter=2017-01-01T12:00:00Z&modifiedBefore=2020-04-15T14:30:00Z';
+  totalSales = 0
   fetchData(url, res)
-
 })
 
-let totalSales = 0
+
 
 function fetchData(url, res) {
   const options = {
