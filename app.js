@@ -54,7 +54,7 @@ function fetchData(url, res) {
       if (pagination.hasNextPage) {
         fetchData(pagination.nextPageUrl, res)
       } else {
-        totalSales += 800;
+        totalSales += 1000;
 
         res.send(totalSales.toString())
       }
